@@ -1,0 +1,11 @@
+{
+  "name": "openai-tokens",
+  "version": "0.0.1",
+  "description": "A service for calculating, managing, truncating openai tokens",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
