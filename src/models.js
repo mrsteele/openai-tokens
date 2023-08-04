@@ -7,6 +7,7 @@
 const _4k = 4096
 const _8k = 8192
 const _14k = 14384
+const _16k = 16384
 const _32k = 32768
 
 const models = {
@@ -34,7 +35,7 @@ const models = {
     price: 0.0000015
   },
   'gpt-3.5-turbo-16k': {
-    tokens: _14k,
+    tokens: _16k,
     price: 0.000003
   },
   'gpt-3.5-turbo-0613': {
