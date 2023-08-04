@@ -1,11 +1,20 @@
 {
   "name": "openai-tokens",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A service for calculating, managing, truncating openai tokens",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [
+    "openai",
+    "gpt",
+    "chatGPT",
+    "token",
+    "tokens",
+    "tiktoken",
+    "models"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
