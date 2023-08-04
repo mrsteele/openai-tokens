@@ -12,8 +12,8 @@ npm i openai-tokens
 ```js
 import { truncateMessage, verboseWrapper } from 'openai-tokens'
 
-// enforcing limitations
-const truncated = truncateMessage('gpt-3.5-turbo', 'Trying to save money on my prompts!')
+// enforcing limitations (content='', limit=''|Int)
+const truncated = truncateMessage('Trying to save money on my prompts!', 'gpt-3.5-turbo')
 
 // prompt validation
 const promptInfo = verboseWrapper({
@@ -86,19 +86,18 @@ If you would like to limit a single prompt, use the code below.
 import { truncateMessage } from 'openai-tokens'
 
 // truncate with a model
-const prompt1 = truncateMessage('gpt-3-turbo', 'Really long text!... (pretend this goes on forever)')
+const prompt1 = truncateMessage('Really long text!... (pretend this goes on forever)', 'gpt-3-turbo')
 
 // truncate with a specific token limit
-const prompt2 = truncateMessage(1000, 'Really long text!... (pretend this goes on forever)')
+const prompt2 = truncateMessage('Really long text!... (pretend this goes on forever)', 1000)
 
-// feel free to 
 ```
 
 ## Additional Information
 
 ### Undetected Models
 
-If you provide a model that is not supported, you will get a console message as well as no boundaries by default on the request.
+If you provide a model that is not supported, you will get a console message as well as defaulted to `gpt-3.5-turbo`.
 
 ## License
 

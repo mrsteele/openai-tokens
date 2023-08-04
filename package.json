@@ -1,6 +1,6 @@
 {
   "name": "openai-tokens",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A service for calculating, managing, truncating openai tokens",
   "main": "src/index.js",
   "scripts": {
