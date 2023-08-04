@@ -10,10 +10,23 @@ npm i openai-tokens
 ## Basic Usage
 
 ```js
-import { truncateMessage, verboseWrapper } from 'openai-tokens'
+import { truncateMessage, truncateWrapper, verboseWrapper } from 'openai-tokens'
 
 // enforcing limitations (content='', limit=''|Int)
 const truncated = truncateMessage('Trying to save money on my prompts!', 'gpt-3.5-turbo')
+
+// enforce truncation around all messages
+
+const truncatedBody = truncateWrapper({
+  model: 'gpt-4',
+  messages: [{
+    role: 'system',
+    content: 'be snarky'
+  }, {
+    role: 'user',
+    content: 'Will this be valid? Lets check the output...'
+  }]
+})
 
 // prompt validation
 const promptInfo = verboseWrapper({
@@ -49,6 +62,21 @@ While this is in the early stages of development, there are some big ideas to co
 * **Token Truncation** - Truncate your prompts so they fit in your requests. Useful if you don't really mind having a sentence cut off. This library will cut between words until the tokens fit in the request.
 * **Verbose Information** - This service can be used to measure impact before sendoff. It provides information for you to determine if the request will work for your ideal limitations.
 
+### Truncate
+
+If you would like to limit a single prompt, use the code below.
+
+```js
+import { truncateMessage } from 'openai-tokens'
+
+// truncate with a model
+const prompt1 = truncateMessage('Really long text!... (pretend this goes on forever)', 'gpt-3-turbo')
+
+// truncate with a specific token limit
+const prompt2 = truncateMessage('Really long text!... (pretend this goes on forever)', 1000)
+
+```
+
 ### Verbose
 
 A common use for this can expose the expected results
@@ -76,21 +104,6 @@ console.log(info)
   valid: true // True or False depending on if the prompt is under the limit
 }
 */
-```
-
-### Truncate
-
-If you would like to limit a single prompt, use the code below.
-
-```js
-import { truncateMessage } from 'openai-tokens'
-
-// truncate with a model
-const prompt1 = truncateMessage('Really long text!... (pretend this goes on forever)', 'gpt-3-turbo')
-
-// truncate with a specific token limit
-const prompt2 = truncateMessage('Really long text!... (pretend this goes on forever)', 1000)
-
 ```
 
 ## Additional Information
