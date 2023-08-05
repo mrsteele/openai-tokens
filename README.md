@@ -1,6 +1,8 @@
 # openai-tokens
 A service for calculating, managing and truncating openai tokens (gpt/completions AND embeddings).
 
+[![codecov](https://codecov.io/gh/mrsteele/openai-tokens/branch/main/graph/badge.svg?token=NCG32SMS6Z)](https://codecov.io/gh/mrsteele/openai-tokens)
+
 ## Features
 
 This package was written by an author who actively uses OpenAI and was running into some limitations. This package helps to get you setup.
