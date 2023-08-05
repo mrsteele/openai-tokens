@@ -18,7 +18,53 @@ This package was written by an author who actively uses OpenAI and was running i
 npm i openai-tokens
 ```
 
-## Basic Usage
+## Use-Cases
+
+### Maintain Chat History
+
+If the conversations are brief, save as much history as possible.
+
+```js
+// keep as much history as possible
+await fetch('https://api.openai.com/v1/completions', {
+  body: JSON.stringify(truncateWrapper({
+    model: 'gpt-3.5-turbo',
+    opts: {
+      buffer: 1000 // give a buffer so GPT can respond!
+    },
+    messages: [{
+      role: 'system',
+      content: 'This should always be there!'
+    }, {
+      role: 'user', // This will be removed (too big), along with a paired assistant message
+      content: bigStr
+    }, {
+      role: 'assistant', // the pair that is removed
+      content: 'Just a small string (does not matter, because we remove in pairs)'
+    }, {
+      role: 'user',
+      content: 'Final user prompt'
+    }]
+  }))
+})
+```
+
+### Limit embeddings
+
+If you want to get the most out of your embeddings, this module can be used for that.
+
+```js
+// protect your requests from going over:
+await fetch('https://api.openai.com/v1/embeddings', {
+  method: 'POST',
+  body: JSON.stringify(truncateWrapper({
+    mode: 'text-embedding-ada-002',
+    inputs: ['large data set, pretend this goes on for most of eternity...']
+  }))
+})
+```
+
+## Complete Usage
 
 ### Truncate
 
@@ -46,7 +92,12 @@ const truncatedBody = truncateWrapper({
   opts: {
     limit: 1000
   },
-  messages: [{ role: 'user', content: str }]
+  messages: [
+    { role: 'system', content: 'this will never truncate' },
+    { role: 'user', content: str },
+    { role: 'assistant', content: 'Removes in pairs, so this and the prior "user" message will be removed' },
+    { role: 'user', content: 'This will be preserved, because there is no matching "assistant" message.' }
+  ]
 })
 ```
 
@@ -93,6 +144,14 @@ console.log(promptInfo)
 ```
 
 ## Additional Information
+
+### Token Limits
+
+This service will support maximum response sizes. So if you want to leave room to respond, make sure you leave room to respond.
+
+From ChatGPT directly:
+
+> Remember that very long conversations are more likely to receive incomplete replies. For example, if a conversation is 4090 tokens long, the reply will be cut off after only 6 tokens.
 
 ### Undetected Models
 
