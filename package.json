@@ -19,7 +19,11 @@
     "token",
     "tokens",
     "tiktoken",
-    "models"
+    "validate",
+    "truncate",
+    "models",
+    "embeddings",
+    "ada"
   ],
   "standard": {
     "env": [ "jest" ]

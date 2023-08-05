@@ -63,4 +63,32 @@ describe('validateWrapper', () => {
       valid: false
     })
   })
+
+  test('should support embeddings (single input)', () => {
+    const results = validateWrapper({
+      model: 'text-embedding-ada-002',
+      input: 'single input embedding'
+    })
+
+    expect(results).toMatchObject({
+      tokenLimit: 4096,
+      tokenTotal: 4,
+      cost: 0.0000004,
+      valid: true
+    })
+  })
+
+  test('should support embeddings (multi input)', () => {
+    const results = validateWrapper({
+      model: 'text-embedding-ada-002',
+      input: ['single input embedding', 'surprise secondary input']
+    })
+
+    expect(results).toMatchObject({
+      tokenLimit: 4096,
+      tokenTotal: 8,
+      cost: 0.0000008,
+      valid: true
+    })
+  })
 })

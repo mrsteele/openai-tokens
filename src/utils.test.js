@@ -12,28 +12,34 @@ describe('getTokens', () => {
 
 describe('getAllTokens', () => {
   test('should count single messages', () => {
-    const tokens = getAllTokens([{
-      role: 'user',
-      content: 'This is the content'
-    }])
+    const tokens = getAllTokens({
+      model: 'gpt-3.5-turbo',
+      messages: [{
+        role: 'user',
+        content: 'This is the content'
+      }]
+    })
 
     expect(tokens).toBe(4)
   })
 
   test('should count multiple messages', () => {
-    const tokens = getAllTokens([{
-      role: 'system',
-      content: 'This is the content'
-    }, {
-      role: 'user',
-      content: 'This is the content'
-    }])
+    const tokens = getAllTokens({
+      model: 'gpt-3.5-turbo',
+      messages: [{
+        role: 'system',
+        content: 'This is the content'
+      }, {
+        role: 'user',
+        content: 'This is the content'
+      }]
+    })
 
     expect(tokens).toBe(8)
   })
 
   test('should count empty messages if they ever happened', () => {
-    const tokens = getAllTokens([])
+    const tokens = getAllTokens({ mode: '', messages: [] })
     expect(tokens).toBe(0)
   })
 })

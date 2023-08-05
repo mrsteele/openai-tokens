@@ -4,7 +4,7 @@ const getModel = require('./models')
 const validateWrapper = (body = {}) => {
   const model = getModel(body.model)
 
-  const tokenTotal = getAllTokens(body.messages)
+  const tokenTotal = getAllTokens(body)
   const tokenLimit = model.tokens
 
   return {

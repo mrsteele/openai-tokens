@@ -1,13 +1,16 @@
 # openai-tokens
-A service for calculating, managing and truncating openai prompts.
+A service for calculating, managing and truncating openai prompt tokens (gpt/completions AND embeddings).
+
+[![codecov](https://codecov.io/gh/mrsteele/openai-tokens/branch/main/graph/badge.svg?token=NCG32SMS6Z)](https://codecov.io/gh/mrsteele/openai-tokens)
 
 ## Features
 
 This package was written by an author who actively uses OpenAI and was running into some limitations. This package helps to get you setup.
 
-1. 🎯 **Accurate** - Use this tool if you need confidence in your prompts either before or during your API requests.
-2. 😌 **Seamless** - Integration should be simple. Wrappers make this accessible.
-3. 🔒 **Secure** - Your data is yours, this library just wants to help.
+- 🏃 **FAST** - If you need to run a calculation or truncation quickly, this is the module for you!
+- 🎯 **Accurate** - Use this tool if you need confidence in your prompts either before or during your API requests.
+- 😌 **Seamless** - Integration should be simple. Wrappers make this accessible.
+- 🔒 **Secure** - Your data is yours, this library just wants to help.
 
 ## Installation
 
@@ -64,7 +67,7 @@ if (isValid) {
 
 // Validate the entire body
 const promptInfo = validateWrapper({
-  model: 'gpt-4', // we validate for you 👍
+  model: '[Title](src/models.js)', // we validate embeddings for you 👍
   messages: [{ role: 'user', content: str }]
 })
 
@@ -90,6 +93,23 @@ console.log(promptInfo)
 ### Undetected Models
 
 If you provide a model that is not supported, you will get a console message as well as defaulted to `gpt-3.5-turbo`.
+
+### Supported Models
+
+The following models are supported. Plenty more available upon request (in fact, feel free to submit a PR and become a contributor!)
+
+* gpt-4
+* gpt-4-0613
+* gpt-4-32k
+* gpt-4-32k-0613
+* gpt-3.5-turbo
+* gpt-3.5-turbo-16k
+* gpt-3.5-turbo-0613
+* gpt-3.5-turbo-16k-0613
+* text-embedding-ada-002
+* text-davinci-003
+* text-davinci-002
+* code-davinci-002
 
 ## License
 
