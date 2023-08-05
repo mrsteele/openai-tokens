@@ -8,7 +8,7 @@ const truncateMessage = (content, limit) => {
   do {
     // most pointer to up to next space
     pointer = pointer === undefined ? content.length : content.slice(0, pointer).lastIndexOf(' ')
-    
+
     // impossible
     if (pointer === -1) {
       return ''
@@ -22,7 +22,7 @@ const truncateMessage = (content, limit) => {
 }
 
 // @TODO - Coming soon?
-const truncateWrapper = (body={}, limit) => {
+const truncateWrapper = (body = {}, limit) => {
   const forceLimit = getLimit(limit || body.model)
 
   // calculate all parts first...
@@ -61,7 +61,6 @@ const truncateWrapper = (body={}, limit) => {
       }
     ]
   })
-  
 }
 
 module.exports = {

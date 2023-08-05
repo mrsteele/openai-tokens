@@ -6,7 +6,6 @@
 // tokens
 const _4k = 4096
 const _8k = 8192
-const _14k = 14384
 const _16k = 16384
 const _32k = 32768
 
@@ -63,7 +62,7 @@ const models = {
 }
 
 const defaultModel = 'gpt-3.5-turbo'
-const getModel = (model='') => {
+const getModel = (model = '') => {
   const lookup = models[model]
   if (!lookup) {
     console.warn(`The model "${model}" is not currently supported. Defaulting to "${defaultModel}"`)

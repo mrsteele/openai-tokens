@@ -1,4 +1,4 @@
-const { getTokens, getAllTokens, getLimit } = require("./utils")
+const { getTokens, getAllTokens, getLimit } = require('./utils')
 
 describe('getTokens', () => {
   test('should encode a fixed value', () => {
@@ -41,7 +41,7 @@ describe('getAllTokens', () => {
 describe('getLimit', () => {
   test('should support number arguments', () => {
     const numbers = [0, 1, 100000]
-    for (let number of numbers) {
+    for (const number of numbers) {
       expect(getLimit(number)).toBe(number)
     }
   })
@@ -54,6 +54,6 @@ describe('getLimit', () => {
   test('should default to gpt-3-turbo', () => {
     console.warn = jest.fn()
     expect(getLimit('missing333')).toBe(4096)
-    expect(console.warn.mock.calls[0][0]).toBe('The model "missing333" is not currently supported. Defaulting to "gpt-3.5-turbo"');
+    expect(console.warn.mock.calls[0][0]).toBe('The model "missing333" is not currently supported. Defaulting to "gpt-3.5-turbo"')
   })
 })

@@ -14,7 +14,7 @@ describe('validateMessage', () => {
   })
 
   test('should default to gpt-3.5-turbo and share a warning', () => {
-    console.warn = jest.fn();
+    console.warn = jest.fn()
 
     expect(validateMessage('Test', 'missing 1')).toBe(true)
     expect(validateMessage(bigStr, 'missing 2')).toBe(false)
