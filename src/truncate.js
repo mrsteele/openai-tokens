@@ -1,14 +1,14 @@
-const { getTruncationLimit, getTokens } = require('./utils')
+const { getLimit, getTokens } = require('./utils')
 
 const truncateMessage = (content, limit) => {
-  const forceLimit = getTruncationLimit(limit)
+  const forceLimit = getLimit(limit)
 
   let total = 0
   let pointer
   do {
     // most pointer to up to next space
     pointer = pointer === undefined ? content.length : content.slice(0, pointer).lastIndexOf(' ')
-    
+
     // impossible
     if (pointer === -1) {
       return ''
@@ -22,8 +22,8 @@ const truncateMessage = (content, limit) => {
 }
 
 // @TODO - Coming soon?
-const truncateWrapper = (body={}, limit) => {
-  const forceLimit = getTruncationLimit(limit || body.model)
+const truncateWrapper = (body = {}, limit) => {
+  const forceLimit = getLimit(limit || body.model)
 
   // calculate all parts first...
   let runningTotal = 0
@@ -61,7 +61,6 @@ const truncateWrapper = (body={}, limit) => {
       }
     ]
   })
-  
 }
 
 module.exports = {
