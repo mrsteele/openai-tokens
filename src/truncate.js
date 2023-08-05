@@ -1,4 +1,4 @@
-const { getLimit, getTokens, getAllTokens } = require('./utils')
+const { getLimit, getTokens } = require('./utils')
 const { encode, decode } = require('gpt-3-encoder')
 
 const truncateMessage = (content, limit) => {
@@ -82,31 +82,8 @@ const truncateWrapper = (originalBody = {}, limit) => {
     console.warn('Using the "limit" argument on "truncateWrapper" is deprecated. Please us the "opts" property on the main object instead. Read more at https://github.com/mrsteele/openai-tokens/wiki/%5BDeprecated%5D-No-longer-supporting-the-%22limit%22-argument-on-%22truncateWrapper%22')
   }
   const { opts, ...body } = originalBody
-  const fn = !!body.input ? truncateEmbedding : truncateCompletion
+  const fn = body.input ? truncateEmbedding : truncateCompletion
   return fn(body, limit || opts?.limit)
-}
-
-const truncateContext = (body) => {
-  const limit = getLimit(body.model)
-  const allTokens = getAllTokens(body)
-  const diff = allTokens - limit
-
-  if (diff <= 0) {
-    return body
-  }
-
-  /*
-    system
-    user
-    assistant
-    user
-  */
-
-  const lowerBounds = body.messages.lastIndexOf(a => a.role === 'system')
-  const upperBounds = body.messages.lastIndexOf(a => a.role === 'assistant') + 1
-
-  const assistantArr = body.messages.slice(lowerBounds, upperBounds)
-
 }
 
 module.exports = {
