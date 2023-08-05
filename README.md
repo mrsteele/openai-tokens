@@ -10,7 +10,7 @@ npm i openai-tokens
 ## Basic Usage
 
 ```js
-import { truncateMessage, truncateWrapper, validateWrapper } from 'openai-tokens'
+import { truncateMessage, truncateWrapper, validateMessage, validateWrapper } from 'openai-tokens'
 
 // enforcing limitations (content='', limit=''|Int)
 const truncated = truncateMessage('Trying to save money on my prompts!', 'gpt-3.5-turbo')
