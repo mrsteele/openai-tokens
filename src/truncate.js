@@ -1,7 +1,7 @@
-const { getTruncationLimit, getTokens } = require('./utils')
+const { getLimit, getTokens } = require('./utils')
 
 const truncateMessage = (content, limit) => {
-  const forceLimit = getTruncationLimit(limit)
+  const forceLimit = getLimit(limit)
 
   let total = 0
   let pointer
@@ -23,7 +23,7 @@ const truncateMessage = (content, limit) => {
 
 // @TODO - Coming soon?
 const truncateWrapper = (body={}, limit) => {
-  const forceLimit = getTruncationLimit(limit || body.model)
+  const forceLimit = getLimit(limit || body.model)
 
   // calculate all parts first...
   let runningTotal = 0

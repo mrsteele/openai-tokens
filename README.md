@@ -10,31 +10,30 @@ npm i openai-tokens
 ## Basic Usage
 
 ```js
-import { truncateMessage, truncateWrapper, verboseWrapper } from 'openai-tokens'
+import { truncateMessage, truncateWrapper, validateWrapper } from 'openai-tokens'
 
 // enforcing limitations (content='', limit=''|Int)
 const truncated = truncateMessage('Trying to save money on my prompts!', 'gpt-3.5-turbo')
 
 // enforce truncation around all messages
-
 const truncatedBody = truncateWrapper({
-  model: 'gpt-4',
+  model: 'gpt-4', // auto-detects token limits 🙌
   messages: [{
-    role: 'system',
-    content: 'be snarky'
-  }, {
     role: 'user',
     content: 'Will this be valid? Lets check the output...'
   }]
 })
 
+// validate a message has a limit
+const isValid = validateMessage('Trying to save money on my prompts!', 'gpt-3.5-turbo')
+if (isValid) {
+  // actually send the prompt 😊
+}
+
 // prompt validation
-const promptInfo = verboseWrapper({
-  model: 'gpt-4',
+const promptInfo = validateWrapper({
+  model: 'gpt-4', // we validate for you 👍
   messages: [{
-    role: 'system',
-    content: 'be snarky'
-  }, {
     role: 'user',
     content: 'Will this be valid? Lets check the output...'
   }]
@@ -60,7 +59,7 @@ This package was written by an author who actively uses OpenAI and was running i
 While this is in the early stages of development, there are some big ideas to continue to expland. Try out the following features
 
 * **Token Truncation** - Truncate your prompts so they fit in your requests. Useful if you don't really mind having a sentence cut off. This library will cut between words until the tokens fit in the request.
-* **Verbose Information** - This service can be used to measure impact before sendoff. It provides information for you to determine if the request will work for your ideal limitations.
+* **Validate** - This service can be used to measure impact before sendoff. It provides information for you to determine if the request will work for your ideal limitations.
 
 ### Truncate
 
@@ -77,14 +76,14 @@ const prompt2 = truncateMessage('Really long text!... (pretend this goes on fore
 
 ```
 
-### Verbose
+### Validate
 
-A common use for this can expose the expected results
+A common use for this can validate the expected results
 
 ```js
-import { verboseWrapper } from 'openai-tokens'
+import { validateWrapper } from 'openai-tokens'
 
-const info = verboseWrapper({
+const info = validateWrapper({
   model: 'gpt-3.5-turbo', // auto-detects model for limits
   messages: [{
     role: 'system',

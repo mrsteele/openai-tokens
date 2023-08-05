@@ -1,8 +1,9 @@
-const verboseWrapper = require('./verbose')
+const { validateMessage, validateWrapper } = require('./validate')
 const { truncateMessage, truncateWrapper } = require('./truncate')
 
 module.exports = {
-  verboseWrapper,
+  validateMessage,
+  validateWrapper,
   truncateWrapper,
   truncateMessage
 }
