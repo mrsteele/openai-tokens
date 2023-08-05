@@ -42,6 +42,10 @@ const truncatedByNumber = truncateMessage(str, 100)
 // enforce truncation around all messages
 const truncatedBody = truncateWrapper({
   model: 'gpt-4', // auto-detects token limits 🙌
+  //optionally, you can supply your own limit (surpressed in output)
+  opts: {
+    limit: 1000
+  },
   messages: [{ role: 'user', content: str }]
 })
 ```

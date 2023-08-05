@@ -10,7 +10,7 @@ const validateWrapper = (body = {}) => {
   return {
     tokenLimit,
     tokenTotal,
-    valid: tokenTotal < tokenLimit,
+    valid: tokenTotal <= tokenLimit,
     cost: model.price * tokenTotal
   }
 }
