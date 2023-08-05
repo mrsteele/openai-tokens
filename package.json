@@ -8,6 +8,10 @@
     "lint": "standard",
     "dev": "npm t -- --watch"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrsteele/openai-tokens.git"
+  },
   "keywords": [
     "openai",
     "gpt",
