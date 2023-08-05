@@ -1,5 +1,10 @@
-const { getLimit, getTokens } = require('./utils')
+const { getLimit, getAllTokens } = require('./utils')
 const { encode, decode } = require('gpt-3-encoder')
+
+const getBodyLimit = (body = {}) => {
+  const limit = getLimit(body.opts?.limit || body.model)
+  return limit - (body.opts?.buffer || 0)
+}
 
 const truncateMessage = (content, limit) => {
   const forceLimit = getLimit(limit)
@@ -9,8 +14,9 @@ const truncateMessage = (content, limit) => {
   return decode(newEncoded)
 }
 
-const truncateEmbedding = (body = {}, limit) => {
-  const forceLimit = getLimit(limit || body.model)
+const truncateEmbedding = (originalBody = {}) => {
+  const { opts, ...body } = originalBody
+  const forceLimit = getBodyLimit(originalBody)
   if (Array.isArray(body.input)) {
     const newInput = []
     for (let i = 0; i < body.input.length; i++) {
@@ -28,43 +34,49 @@ const truncateEmbedding = (body = {}, limit) => {
   }
 }
 
-const truncateCompletion = (body = {}, limit) => {
-  const forceLimit = getLimit(limit || body.model)
+// uses redundancy
+const limitMessages = (messages, limit) => {
+  const total = getAllTokens({ messages })
+  if (total <= limit) {
+    return messages
+  }
 
-  // calculate all parts first...
-  let runningTotal = 0
-  const newMessages = body.messages.map(message => {
-    const tokens = getTokens(message.content)
-    runningTotal += tokens
+  // remove in pair
+  const slices = [
+    messages.findIndex(m => m.role === 'user'),
+    messages.findIndex(m => m.role === 'assistant')
+  ].sort().reverse()
 
-    return {
-      ...message,
-      tokens,
-      runningTotal
+  // no "nothing" found, pair is removable
+  if (slices.indexOf(-1) === -1) {
+    for (const slice of slices) {
+      messages.splice(slice, 1)
     }
-  })
+
+    // try again
+    return limitMessages(messages, limit)
+  }
+
+  console.warn('Unable to truncate any further. Prompts too large. Returning unresolvable.')
+  return messages
+}
+
+const truncateCompletion = (originalBody = {}) => {
+  const { opts, ...body } = originalBody
+  const forceLimit = getBodyLimit(originalBody)
+
+  const runningTotal = getAllTokens(body)
 
   // if its good, just send it off
-  // console.log('forceLimit', getTokens(body.messages[0].content))
-  // return forceLimit
   if (runningTotal <= forceLimit) {
     return body
   }
 
-  const bigIndex = newMessages.findIndex(m => m.runningTotal > forceLimit)
-  const newLimit = forceLimit - newMessages.slice(0, bigIndex).reduce((total, current) => total + current.tokens, 0)
-  const { role, content } = body.messages[bigIndex]
-
-  return ({
+  // clone and limit
+  return {
     ...body,
-    messages: [
-      ...body.messages.slice(0, bigIndex),
-      {
-        role,
-        content: truncateMessage(content, newLimit)
-      }
-    ]
-  })
+    messages: limitMessages(JSON.parse(JSON.stringify(body.messages)), forceLimit)
+  }
 }
 
 /**
@@ -83,7 +95,13 @@ const truncateWrapper = (originalBody = {}, limit) => {
   }
   const { opts, ...body } = originalBody
   const fn = body.input ? truncateEmbedding : truncateCompletion
-  return fn(body, limit || opts?.limit)
+  return fn({
+    ...body,
+    opts: {
+      ...opts,
+      limit: limit || opts?.limit
+    }
+  })
 }
 
 module.exports = {
