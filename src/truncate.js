@@ -1,28 +1,34 @@
 const { getLimit, getTokens } = require('./utils')
+const { encode, decode } = require('gpt-3-encoder')
 
 const truncateMessage = (content, limit) => {
   const forceLimit = getLimit(limit)
 
-  let total = 0
-  let pointer
-  do {
-    // most pointer to up to next space
-    pointer = pointer === undefined ? content.length : content.slice(0, pointer).lastIndexOf(' ')
-
-    // impossible
-    if (pointer === -1) {
-      return ''
-    }
-
-    // check new token length
-    total = getTokens(content.slice(0, pointer))
-  } while (total > forceLimit)
-
-  return content.slice(0, pointer)
+  const encoded = encode(content)
+  const newEncoded = encoded.slice(0, forceLimit)
+  return decode(newEncoded)
 }
 
-// @TODO - Coming soon?
-const truncateWrapper = (body = {}, limit) => {
+const truncateEmbedding = (body = {}, limit) => {
+  const forceLimit = getLimit(limit || body.model)
+  if (Array.isArray(body.input)) {
+    const newInput = []
+    for (let i = 0; i < body.input.length; i++) {
+      newInput.push(truncateMessage(body.input[i], forceLimit))
+    }
+    return {
+      ...body,
+      input: newInput
+    }
+  } else {
+    return {
+      ...body,
+      input: truncateMessage(body.input, forceLimit)
+    }
+  }
+}
+
+const truncateCompletion = (body = {}, limit) => {
   const forceLimit = getLimit(limit || body.model)
 
   // calculate all parts first...
@@ -61,6 +67,15 @@ const truncateWrapper = (body = {}, limit) => {
       }
     ]
   })
+}
+
+const truncateWrapper = (body = {}, limit) => {
+  const isEmbedding = !!body.input
+  if (isEmbedding) {
+    return truncateEmbedding(body, limit)
+  } else {
+    return truncateCompletion(body, limit)
+  }
 }
 
 module.exports = {

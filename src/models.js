@@ -46,7 +46,14 @@ const models = {
     price: 0.000003
   },
 
-  // davinci
+  // embeddings
+  'text-embedding-ada-002': {
+    tokens: _4k,
+    price: 0.0000001
+  },
+
+
+  // legacy
   'text-davinci-003': {
     tokens: _4k + 1, // offset
     price: 0.00002
