@@ -25,4 +25,16 @@ describe('truncateWrapper', () => {
 
     expect(response.input).toMatchObject([str, str, 'small embedding'])
   })
+
+  test('should support supplied limits', () => {
+    const response = truncateWrapper({
+      model: 'text-embedding-ada-002',
+      opts: {
+        limit: 2
+      },
+      input: [bigStr, bigStr, 'small embedding']
+    })
+
+    expect(response.input).toMatchObject(['so not', 'so not', 'small embed'])
+  })
 })
