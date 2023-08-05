@@ -91,4 +91,33 @@ describe('validateWrapper', () => {
       valid: true
     })
   })
+
+  test('bottom edge case', () => {
+    const results = validateWrapper({
+      model: 'text-embedding-ada-002',
+      // 4096
+      input: ''
+    })
+
+    expect(results.valid).toBe(true)
+  })
+
+  test('top edge case', () => {
+    const valid = 'this is 10 tokens long for reference okay? '.repeat(455)
+    const results = validateWrapper({
+      model: 'text-embedding-ada-002',
+      // 4096
+      input: valid
+    })
+
+    expect(results.valid).toBe(true)
+
+    const results2 = validateWrapper({
+      model: 'text-embedding-ada-002',
+      // 4096
+      input: valid + 'newer2'
+    })
+
+    expect(results2.valid).toBe(false)
+  })
 })
