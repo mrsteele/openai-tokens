@@ -1,5 +1,5 @@
 # openai-tokens
-A service for calculating, managing and truncating openai tokens.
+A service for calculating, managing and truncating openai prompts.
 
 ## Features
 
