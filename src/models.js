@@ -52,7 +52,6 @@ const models = {
     price: 0.0000001
   },
 
-
   // legacy
   'text-davinci-003': {
     tokens: _4k + 1, // offset

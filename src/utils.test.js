@@ -39,7 +39,7 @@ describe('getAllTokens', () => {
   })
 
   test('should count empty messages if they ever happened', () => {
-    const tokens = getAllTokens({mode: '', messages: []})
+    const tokens = getAllTokens({ mode: '', messages: [] })
     expect(tokens).toBe(0)
   })
 })

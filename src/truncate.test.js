@@ -20,7 +20,7 @@ describe('truncateWrapper', () => {
   test('should truncate embeddings (multiple)', () => {
     const response = truncateWrapper({
       model: 'text-embedding-ada-002',
-      input: [bigStr,bigStr, 'small embedding']
+      input: [bigStr, bigStr, 'small embedding']
     })
 
     expect(response.input).toMatchObject([str, str, 'small embedding'])
