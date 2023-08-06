@@ -8,7 +8,7 @@ A service for calculating, managing and truncating openai prompt tokens (gpt/com
 This package was written by an author who actively uses OpenAI and was running into some limitations. This package helps to get you setup.
 
 - 🏃 **FAST** - If you need to run a calculation or truncation quickly, this is the module for you!
-- 🎯 **Accurate** - Use this tool if you need confidence in your prompts either before or during your API requests.
+- 🎯 **Accurate** - Use this tool if you need confidence in your prompts either before or during your API requests. Note: Tokens are [hard to calculate](#7)
 - 😌 **Seamless** - Integration should be simple. Wrappers make this accessible.
 - 🔒 **Secure** - Your data is yours, this library just wants to help.
 
