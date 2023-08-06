@@ -1,6 +1,6 @@
 const { truncateWrapper } = require('./truncate')
 
-const ten = 'this is 10 tokens long for reference okay? '
+const ten = 'this is 10 tokens long for reference? '
 const bigStr = 'so not even Matt can explore it '.repeat(1200)
 const str = 'so not even Matt can explore it '.repeat(1170) + 'hi'
 // target (18722)
@@ -36,10 +36,10 @@ describe('truncateWrapper', () => {
       opts: {
         limit: 2
       },
-      input: [bigStr, bigStr, 'small embedding']
+      input: [bigStr, 'testing a ' + bigStr, 'small embedding']
     })
 
-    compareArrays(response.input, ['so not', 'so not', 'small embed'])
+    compareArrays(response.input, ['so not', 'testing a', 'small embedding'])
   })
 
   test('should truncate in pairs when they are too big', () => {

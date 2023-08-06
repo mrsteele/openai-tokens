@@ -1,17 +1,13 @@
-const { getLimit, getAllTokens } = require('./utils')
-const { encode, decode } = require('gpt-3-encoder')
+const { getModelLimit, getBodyLimit, getAllTokens } = require('./utils')
+const { encode, decode } = require('./encoder')
 
-const getBodyLimit = (body = {}) => {
-  const limit = getLimit(body.opts?.limit || body.model)
-  return limit - (body.opts?.buffer || 0)
-}
+const truncateMessage = (content, model, limit) => {
+  const modelLimit = getModelLimit(model)
+  const actualLimit = limit ?? modelLimit
 
-const truncateMessage = (content, limit) => {
-  const forceLimit = getLimit(limit)
-
-  const encoded = encode(content)
-  const newEncoded = encoded.slice(0, forceLimit)
-  return decode(newEncoded)
+  const encoded = encode(content, model)
+  const newEncoded = encoded.slice(0, actualLimit)
+  return decode(newEncoded, model)
 }
 
 const truncateEmbedding = (originalBody = {}) => {
@@ -20,7 +16,7 @@ const truncateEmbedding = (originalBody = {}) => {
   if (Array.isArray(body.input)) {
     const newInput = []
     for (let i = 0; i < body.input.length; i++) {
-      newInput.push(truncateMessage(body.input[i], forceLimit))
+      newInput.push(truncateMessage(body.input[i], body.model, forceLimit))
     }
     return {
       ...body,
@@ -29,7 +25,7 @@ const truncateEmbedding = (originalBody = {}) => {
   } else {
     return {
       ...body,
-      input: truncateMessage(body.input, forceLimit)
+      input: truncateMessage(body.input, body.model, forceLimit)
     }
   }
 }
@@ -89,19 +85,9 @@ const truncateCompletion = (originalBody = {}) => {
  * @param {String|String[]} body.input - (optional) Used for embeddings.
  * @returns {JSON} The resulting object
  */
-const truncateWrapper = (originalBody = {}, limit) => {
-  if (limit) {
-    console.warn('Using the "limit" argument on "truncateWrapper" is deprecated. Please us the "opts" property on the main object instead. Read more at https://github.com/mrsteele/openai-tokens/wiki/%5BDeprecated%5D-No-longer-supporting-the-%22limit%22-argument-on-%22truncateWrapper%22')
-  }
-  const { opts, ...body } = originalBody
+const truncateWrapper = (body = {}) => {
   const fn = body.input ? truncateEmbedding : truncateCompletion
-  return fn({
-    ...body,
-    opts: {
-      ...opts,
-      limit: limit || opts?.limit
-    }
-  })
+  return fn(body)
 }
 
 module.exports = {
