@@ -34,7 +34,7 @@ await fetch('https://api.openai.com/v1/completions', {
     },
     messages: [{
       role: 'system',
-      content: 'This should always be there!'
+      content: 'System messages are always protected from truncation!'
     }, {
       role: 'user', // This will be removed (too big), along with a paired assistant message
       content: bigStr
