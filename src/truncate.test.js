@@ -36,10 +36,10 @@ describe('truncateWrapper', () => {
       opts: {
         limit: 2
       },
-      input: [bigStr, bigStr, 'small embedding']
+      input: [bigStr, 'testing a ' + bigStr, 'small embedding']
     })
 
-    compareArrays(response.input, ['so not', 'so not', 'small embed'])
+    compareArrays(response.input, ['so not', 'testing a', 'small embedding'])
   })
 
   test('should truncate in pairs when they are too big', () => {

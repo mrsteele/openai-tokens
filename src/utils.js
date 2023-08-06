@@ -1,8 +1,12 @@
 const getModel = require('./models')
-const encoder = require('./encoder')
+const { encode } = require('./encoder')
 
-const getTokens = (content = '', model) => encoder(content, model).length
-const getLimit = (limit) => parseInt(limit) === limit ? limit : getModel(limit).tokens
+const getTokens = (content = '', model) => encode(content, model).length
+const getModelLimit = (model = '') => getModel(model).tokens
+const getBodyLimit = (body = {}) => {
+  const limit = body.opts?.limit || getModelLimit(body.model)
+  return limit - (body.opts?.buffer || 0)
+}
 const getAllTokens = (body = {}) => {
   if ('input' in body) {
     return Array.isArray(body.input) ? body.input.reduce((total, current) => total + getTokens(current, body.model), 0) : getTokens(body.input, body.model)
@@ -14,6 +18,7 @@ const getAllTokens = (body = {}) => {
 
 module.exports = {
   getTokens,
+  getBodyLimit,
   getAllTokens,
-  getLimit
+  getModelLimit
 }

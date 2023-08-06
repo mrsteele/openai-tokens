@@ -57,16 +57,23 @@ const getEncodingNameForModel = (model) => {
     case 'gpt-4-0613':
     case 'gpt-4-0314':
     case 'gpt-4':
-    case 'text-embedding-ada-002':
-    default: {
+    case 'text-embedding-ada-002': {
       return cl100kBase
     }
+    default:
+      throw new Error(`Unknown model "${model}"`)
   }
 }
 
-const encoder = (text, model) => {
+const encode = (text, model) => {
   const enc = getEncodingNameForModel(model)
   return enc.encode(text)
 }
 
-module.exports = encoder
+const decode = (array, model) => {
+  const enc = getEncodingNameForModel(model)
+  return enc.decode(array)
+}
+
+module.exports.encode = encode
+module.exports.decode = decode

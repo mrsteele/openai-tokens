@@ -8,7 +8,7 @@ A service for calculating, managing and truncating openai prompt tokens (gpt/com
 This package was written by an author who actively uses OpenAI and was running into some limitations. This package helps to get you setup.
 
 - 🏃 **FAST** - If you need to run a calculation or truncation quickly, this is the module for you!
-- 🎯 **Accurate** - This module is the MOST accurate, using a js tiktoken solution that matches models.
+- 🎯 **Accurate** - This module is arguably the MOST accurate utility, using js-tiktoken which matches exact models.
 - 😌 **Seamless** - Integration should be simple. Wrappers make this accessible.
 - 🔒 **Secure** - Your data is yours, this library just wants to help.
 
@@ -30,7 +30,7 @@ await fetch('https://api.openai.com/v1/completions', {
   body: JSON.stringify(truncateWrapper({
     model: 'gpt-3.5-turbo',
     opts: {
-      buffer: 1000 // give a buffer so GPT can respond!
+      buffer: 500 // give a buffer so GPT can respond (limit - buffer)!
     },
     messages: [{
       role: 'system',
@@ -80,15 +80,15 @@ import {
 // The input (strings, just like prompts!)
 const str = 'Trying to save money on my prompts! 💰'
 
-// truncate with a model and we detect the token limit)
+// truncate with a model and we detect the algorithm and token limit
 const truncatedByModel = truncateMessage(str, 'gpt-3.5-turbo')
-// truncate by number, and we will use that to truncate
-const truncatedByNumber = truncateMessage(str, 100)
+// Optionally you can add a number. Below is an example to limit to 1000
+const truncatedByByNumber = truncateMessage(str, 'gpt-3.5-turbo', 1000)
 
 // enforce truncation around all messages
 const truncatedBody = truncateWrapper({
   model: 'gpt-4', // auto-detects token limits 🙌
-  //optionally, you can supply your own limit (surpressed in output)
+  // optionally, you can supply your own limit (surpressed in output)
   opts: {
     limit: 1000
   },
@@ -155,7 +155,7 @@ From ChatGPT directly:
 
 ### Accuracy
 
-In working on this module, accuracy was a challenge due to the fact that each model uses its own way to calculate token consuption. Because of that, **It is recommended to use the model name instead of number when truncating or validating prompts**. See [this ticket](https://github.com/mrsteele/openai-tokens/issues/7) which opened up this problem.
+In working on this module, accuracy was a challenge due to the fact that each model uses its own way to calculate token consuption. Because of that, **we changed this module to exclusively accept model names instead of numbers**. See [this ticket](https://github.com/mrsteele/openai-tokens/issues/7) which opened up this problem.
 
 ### Undetected Models
 

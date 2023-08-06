@@ -2,12 +2,6 @@ const { validateMessage, validateWrapper } = require('./validate')
 const bigStr = 'so not even Matt can explore it'.repeat(1000)
 
 describe('validateMessage', () => {
-  test('should support number limits', () => {
-    expect(validateMessage('Test', 0)).toBe(false)
-    expect(validateMessage('Test', 1)).toBe(true)
-    expect(validateMessage('Test two', 1)).toBe(false)
-  })
-
   test('should support model names', () => {
     expect(validateMessage('Test', 'gpt-3.5-turbo')).toBe(true)
     expect(validateMessage(bigStr, 'gpt-3.5-turbo')).toBe(false)

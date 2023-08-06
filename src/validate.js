@@ -1,4 +1,4 @@
-const { getAllTokens, getLimit, getTokens } = require('./utils')
+const { getAllTokens, getModelLimit, getTokens } = require('./utils')
 const getModel = require('./models')
 
 const validateWrapper = (body = {}) => {
@@ -15,9 +15,9 @@ const validateWrapper = (body = {}) => {
   }
 }
 
-const validateMessage = (content = '', limit) => {
-  const forceLimit = getLimit(limit)
-  const tokens = getTokens(content, limit)
+const validateMessage = (content = '', model) => {
+  const forceLimit = getModelLimit(model)
+  const tokens = getTokens(content, model)
   return tokens <= forceLimit
 }
 
