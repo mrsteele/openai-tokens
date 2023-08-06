@@ -22,7 +22,7 @@ npm i openai-tokens
 
 ### Maintain Chat History
 
-If the conversations are brief, save as much history as possible.
+This module will do the math for you. Pass as many messages into your prompt and we will filter out what doesn't fit over time before sending to OpenAI.
 
 ```js
 // keep as much history as possible
@@ -51,7 +51,7 @@ await fetch('https://api.openai.com/v1/completions', {
 
 ### Limit embeddings
 
-If you want to get the most out of your embeddings, this module can be used for that.
+Embeddings support a lot of data, and sometimes more data than you have room for. Put all your important information in the input, and this module will truncate was doesn't fit.
 
 ```js
 // protect your requests from going over:
