@@ -17,7 +17,7 @@ const validateWrapper = (body = {}) => {
 
 const validateMessage = (content = '', limit) => {
   const forceLimit = getLimit(limit)
-  const tokens = getTokens(content)
+  const tokens = getTokens(content, limit)
   return tokens <= forceLimit
 }
 

@@ -72,8 +72,8 @@ describe('validateWrapper', () => {
 
     expect(results).toMatchObject({
       tokenLimit: 8191,
-      tokenTotal: 4,
-      cost: 0.0000004,
+      tokenTotal: 3,
+      cost: 0.0000003,
       valid: true
     })
   })
@@ -86,8 +86,8 @@ describe('validateWrapper', () => {
 
     expect(results).toMatchObject({
       tokenLimit: 8191,
-      tokenTotal: 8,
-      cost: 0.0000008,
+      tokenTotal: 7,
+      cost: 0.0000007,
       valid: true
     })
   })
@@ -103,14 +103,12 @@ describe('validateWrapper', () => {
   })
 
   test('top edge case', () => {
-    const valid = 'this is 10 tokens long for reference okay? '.repeat(910)
+    const valid = 'this is 10 tokens long for reference okay? '.repeat(819) + 'hi'
     const results = validateWrapper({
       model: 'text-embedding-ada-002',
       // 8191
       input: valid
     })
-
-    console.log('results', results)
 
     expect(results.valid).toBe(true)
 

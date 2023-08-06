@@ -1,6 +1,6 @@
 const { truncateWrapper } = require('./truncate')
 
-const ten = 'this is 10 tokens long for reference okay? '
+const ten = 'this is 10 tokens long for reference? '
 const bigStr = 'so not even Matt can explore it '.repeat(1200)
 const str = 'so not even Matt can explore it '.repeat(1170) + 'hi'
 // target (18722)
