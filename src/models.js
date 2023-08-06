@@ -48,7 +48,7 @@ const models = {
 
   // embeddings
   'text-embedding-ada-002': {
-    tokens: _4k,
+    tokens: _8k - 1, // offset
     price: 0.0000001
   },
 
