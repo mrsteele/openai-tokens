@@ -57,11 +57,9 @@ const getEncodingNameForModel = (model) => {
     case 'gpt-4-0613':
     case 'gpt-4-0314':
     case 'gpt-4':
-    case 'text-embedding-ada-002': {
-      return cl100kBase
-    }
+    case 'text-embedding-ada-002':
     default:
-      throw new Error(`Unknown model "${model}"`)
+      return cl100kBase
   }
 }
 
