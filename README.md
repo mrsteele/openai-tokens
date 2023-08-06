@@ -8,7 +8,7 @@ A service for calculating, managing and truncating openai prompt tokens (gpt/com
 This package was written by an author who actively uses OpenAI and was running into some limitations. This package helps to get you setup.
 
 - 🏃 **FAST** - If you need to run a calculation or truncation quickly, this is the module for you!
-- 🎯 **Accurate** - This module ensures successful API requests. Note: Tokens are [hard to calculate](https://github.com/mrsteele/openai-tokens/issues/7)
+- 🎯 **Accurate** - This module is the MOST accurate, using a js tiktoken solution that matches models.
 - 😌 **Seamless** - Integration should be simple. Wrappers make this accessible.
 - 🔒 **Secure** - Your data is yours, this library just wants to help.
 
@@ -152,6 +152,10 @@ This service will support maximum response sizes. So if you want to leave room t
 From ChatGPT directly:
 
 > Remember that very long conversations are more likely to receive incomplete replies. For example, if a conversation is 4090 tokens long, the reply will be cut off after only 6 tokens.
+
+### Accuracy
+
+In working on this module, accuracy was a challenge due to the fact that each model uses its own way to calculate token consuption. Because of that, **It is recommended to use the model name instead of number when truncating or validating prompts**. See [this ticket](https://github.com/mrsteele/openai-tokens/issues/7) which opened up this problem.
 
 ### Undetected Models
 
