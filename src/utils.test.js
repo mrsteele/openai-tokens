@@ -1,4 +1,4 @@
-const { getTokens, getAllTokens, getLimit } = require('./utils')
+const { getTokens, getAllTokens } = require('./utils')
 
 describe('getTokens', () => {
   test('should encode a fixed value', () => {
