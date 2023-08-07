@@ -158,7 +158,7 @@ console.log(promptInfo)
 
 ### Token Limits
 
-This service will support maximum response sizes. So if you want to leave room to respond, make sure you leave room to respond.
+This service will support maximum request sizes. So if you want to leave room to respond, make sure you support a buffer.
 
 From ChatGPT directly:
 

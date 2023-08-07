@@ -12,6 +12,10 @@
     "type": "git",
     "url": "git+https://github.com/mrsteele/openai-tokens.git"
   },
+  "files": [
+    "/src/*",
+    "!/src/*test.js"
+  ],
   "keywords": [
     "openai",
     "gpt",
