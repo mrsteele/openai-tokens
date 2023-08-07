@@ -34,4 +34,22 @@ describe('Index', () => {
     expect(response.model).toBe('text-embedding-ada-002')
     expect(response.messages.length).toBe(1)
   })
+
+  test('truncateWrapper - stringify', () => {
+    const obj = {
+      model: 'gpt-3.5-turbo',
+      opts: {
+        stringify: true
+      },
+      messages: [{
+        role: 'user',
+        content: 'hi'
+      }]
+    }
+    const response = truncateWrapper(obj)
+
+    const { opts, ...expected } = obj
+
+    expect(response).toBe(JSON.stringify(expected))
+  })
 })
