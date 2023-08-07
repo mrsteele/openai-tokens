@@ -57,10 +57,13 @@ Embeddings support a lot of data, and sometimes more data than you have room for
 // protect your requests from going over:
 await fetch('https://api.openai.com/v1/embeddings', {
   method: 'POST',
-  body: JSON.stringify(truncateWrapper({
+  body: truncateWrapper({
     mode: 'text-embedding-ada-002',
+    opts: {
+      stringify: true // we will even take care of this for you
+    },
     inputs: ['large data set, pretend this goes on for most of eternity...']
-  }))
+  })
 })
 ```
 
@@ -100,6 +103,14 @@ const truncatedBody = truncateWrapper({
   ]
 })
 ```
+
+#### Options
+
+You can pass options to the truncate wrapper as seen in the examples above. The following are the current supported options:
+
+* **limit** (Int) - The token limit you want to enforce on the messages/input. This is the aggregated results for messages (GPT/Completions), and the individual results for inputs/embeddings which is how they are calculated by OpenAI. Defaults to the model maximum.
+* **buffer** (Int) - The amount of additional restriction you want to apply to the limit. The math equates to `max = limit - buffer`. Defaults to `0`.
+* **stringify** (Bool) - If you want the output to be a stringified JSON object instead of a parsed JSON object. Defaults to `false`
 
 ### Validate
 

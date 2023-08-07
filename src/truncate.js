@@ -87,7 +87,8 @@ const truncateCompletion = (originalBody = {}) => {
  */
 const truncateWrapper = (body = {}) => {
   const fn = body.input ? truncateEmbedding : truncateCompletion
-  return fn(body)
+  const res = fn(body)
+  return body.opts?.stringify ? JSON.stringify(res) : res
 }
 
 module.exports = {
