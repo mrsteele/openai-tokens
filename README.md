@@ -1,5 +1,5 @@
 # openai-tokens
-Accurate token calcuations for OpenAI GPT prompts and embeddings.
+Accurate token measurment and truncation for OpenAI GPT prompts and embeddings.
 
 [![codecov](https://codecov.io/gh/mrsteele/openai-tokens/branch/main/graph/badge.svg?token=NCG32SMS6Z)](https://codecov.io/gh/mrsteele/openai-tokens)
 
