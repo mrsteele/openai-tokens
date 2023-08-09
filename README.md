@@ -20,6 +20,30 @@ npm i openai-tokens
 
 ## Use-Cases
 
+### Automatically swapping models based on token size
+
+If you have too much content in your request, you can change your model dynamically so you use an appropriate size for each request.
+
+```js
+const { validationWrapper } = require('openai-tokens')
+
+const chat = async (messages = []) => {
+  // the planned request
+  const request = { model: 'gpt-3.5-turbo', messages }
+  // if the request is invalid, bump it up
+  const model = validateWrapper(request).valid ? 'gpt-3.5-turbo' : 'gpt-3.5-turbo-16k'
+  // override the model to what was programmatically determined
+  const body = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    body: truncateWrapper({ ...request, model }),
+    headers: {
+      Authorization: `Bearer ${OPENAI_KEY}`,
+      'Content-Type': 'application/json'
+    }
+  })
+...
+```
+
 ### Maintain Chat History
 
 This module will do the math for you. Pass as many messages into your prompt and we will filter out what doesn't fit over time before sending to OpenAI.
