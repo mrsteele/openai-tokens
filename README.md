@@ -9,6 +9,7 @@ This package was written by an author who actively uses OpenAI and was running i
 
 - 🏃 **FAST** - If you need to run a calculation or truncation quickly, this is the module for you!
 - 🎯 **Accurate** - This module is arguably the MOST accurate utility, using js-tiktoken which matches exact models.
+- 💰 **Cost-Efficient** - Use dynamic wrappers to use appropriate models depending on the prompt size.
 - 😌 **Seamless** - Integration should be simple. Wrappers make this accessible.
 - 🔒 **Secure** - Your data is yours, this library just wants to help.
 
@@ -43,12 +44,8 @@ const chat = async (messages = []) => {
         buffer: 1000, // add a buffer to make sure GPT can respond
         stringify: true // return the results as a string
       }
-    }),
-    headers: {
-      Authorization: `Bearer ${OPENAI_KEY}`,
-      'Content-Type': 'application/json'
-    }
-  })
+    })
+    ...
   
 ...
 ```
@@ -187,6 +184,39 @@ console.log(promptInfo)
 
 ```
 
+#### Options
+
+You can pass options to the validate wrapper as seen in the examples above. The following are the current supported options:
+
+* **limit** (Int) - The token limit you want to enforce on the messages/input. This is the aggregated results for messages (GPT/Completions), and the individual results for inputs/embeddings which is how they are calculated by OpenAI. Defaults to the model maximum.
+* **buffer** (Int) - The amount of additional restriction you want to apply to the limit. The math equates to `max = limit - buffer`. Defaults to `0`.
+
+### Dynamic
+
+A dynamic router has been provided for convenience. This allows you to pass multiple models. The module will choose the first valid model, so you can always maintain the smallest possible (and save some money 💰).
+
+```js
+const { dynamicWrapper } = require('openai-tokens')
+
+const chat = async (messages = []) => {
+  const body = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    // wrap your original content with minor adjustments
+    body: dynamicWrapper({
+      // smallest to largest, you decide what sizes you want to support
+      model: ['gpt-3.5-turbo', 'gpt-3.5-turbo-16k', 'gpt-4-32k'],
+      messages: [{
+        role: 'user',
+        content: 'This prmopt is small, so its going to go with the first one'
+      }],
+      // optional arguments we can also pass in
+      opts: {
+        buffer: 1000, // add a buffer to make sure GPT can respond
+        stringify: true // return the results as a string
+      }
+    })
+```
+
 ## Additional Information
 
 ### Token Limits
@@ -204,6 +234,42 @@ In working on this module, accuracy was a challenge due to the fact that each mo
 ### Undetected Models
 
 If you provide a model that is not supported, you will get a console message as well as defaulted to `gpt-3.5-turbo`.
+
+### Can you wrap multiple models together?!
+
+YES! A good example of this would be using the `dynamicWrapper` and the `truncateWrapper` together like so:
+
+```js
+const { dynamicWrapper, truncateWrapper } = require('openai-tokens')
+
+const chat = async (messages = []) => {
+  const body = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    body: truncateWrapper({
+      // first we look for a valid prompt
+      ...dynamicWrapper({
+        model: ['gpt-3.5-turbo', 'gpt-3.5-turbo-16k'],
+        messages: [{
+          role: 'user',
+          content: 'pretend this is huge...'
+        }],
+        // these are suppressed in the output
+        opts: {
+          buffer: 1000
+        }
+      }),
+      // opts are not returned from dynamicWrapper, so add them back
+      opts: {
+        buffer: 1000,
+        stringify: true
+      }
+    })
+```
+
+#### Options
+
+* **buffer** (Int) - The amount of additional restriction you want to apply to the limit. The math equates to `max = limit - buffer`. Defaults to `0`.
+* **stringify** (Bool) - If you want the output to be a stringified JSON object instead of a parsed JSON object. Defaults to `false`
 
 ### Supported Models
 
