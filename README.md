@@ -25,22 +25,31 @@ npm i openai-tokens
 If you have too much content in your request, you can change your model dynamically so you use an appropriate size for each request.
 
 ```js
-const { validationWrapper } = require('openai-tokens')
+const { dynamicWrapper } = require('openai-tokens')
 
 const chat = async (messages = []) => {
-  // the planned request
-  const request = { model: 'gpt-3.5-turbo', messages }
-  // if the request is invalid, bump it up
-  const model = validateWrapper(request).valid ? 'gpt-3.5-turbo' : 'gpt-3.5-turbo-16k'
-  // override the model to what was programmatically determined
   const body = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
-    body: truncateWrapper({ ...request, model }),
+    // wrap your original content with minor adjustments
+    body: dynamicWrapper({
+      // we test all models till we find a valid one based on the prompt size
+      model: ['gpt-3.5-turbo', 'gpt-3.5-turbo-16k'],
+      messages: [{
+        role: 'user',
+        content: 'This prmopt is small, so its going to go with the first one'
+      }],
+      // optional arguments we can also pass in
+      opts: {
+        buffer: 1000, // add a buffer to make sure GPT can respond
+        stringify: true // return the results as a string
+      }
+    }),
     headers: {
       Authorization: `Bearer ${OPENAI_KEY}`,
       'Content-Type': 'application/json'
     }
   })
+  
 ...
 ```
 

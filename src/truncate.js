@@ -53,7 +53,7 @@ const limitMessages = (messages, limit) => {
     return limitMessages(messages, limit)
   }
 
-  console.warn('Unable to truncate any further. Prompts too large. Returning unresolvable.')
+  console.warn('openai-tokens[truncate]: Unable to truncate any further. Prompts too large. Returning unresolvable.')
   return messages
 }
 

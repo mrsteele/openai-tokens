@@ -71,7 +71,7 @@ const defaultModel = 'gpt-3.5-turbo'
 const getModel = (model = '') => {
   const lookup = models[model]
   if (!lookup) {
-    console.warn(`The model "${model}" is not currently supported. Defaulting to "${defaultModel}"`)
+    console.warn(`openai-tokens: The model "${model}" is not currently supported. Defaulting to "${defaultModel}"`)
     return models[defaultModel]
   }
 
