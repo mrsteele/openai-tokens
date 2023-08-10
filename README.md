@@ -1,7 +1,7 @@
 # openai-tokens
 Accurate token measurment and truncation for OpenAI GPT prompts and embeddings.
 
-[![codecov](https://codecov.io/gh/mrsteele/openai-tokens/branch/main/graph/badge.svg?token=NCG32SMS6Z)](https://codecov.io/gh/mrsteele/openai-tokens)
+[![npm version](https://badge.fury.io/js/openai-tokens.svg)](https://badge.fury.io/js/openai-tokens) [![codecov](https://codecov.io/gh/mrsteele/openai-tokens/branch/main/graph/badge.svg?token=NCG32SMS6Z)](https://codecov.io/gh/mrsteele/openai-tokens)
 
 ## Features
 
