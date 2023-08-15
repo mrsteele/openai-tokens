@@ -42,6 +42,7 @@
   "author": "Matt Steele <hi@mrsteele.dev>",
   "license": "MIT",
   "dependencies": {
+    "isomorphic-fetch": "^3.0.0",
     "js-tiktoken": "^1.0.7"
   },
   "devDependencies": {

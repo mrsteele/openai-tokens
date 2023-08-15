@@ -19,6 +19,39 @@ This package was written by an author who actively uses OpenAI and was running i
 npm i openai-tokens
 ```
 
+## Quick Start
+
+If you are looking for all the bells and whistles provided out of the box, it is recommended to use the `client`.
+
+```js
+import { createClient } = from 'openai-tokens'
+
+const client = createClient({
+  key: 'your-openai-key-here',
+  buffer: 1000, // maybe you want a universal buffer her
+  gptModels: ['gpt-3.5-turbo', 'gpt-3.5-turbo-16k'] // adaptive models based on prompt size!!!
+})
+
+// single
+await client.gpt('Is this working?')
+// '{ content: 'Yes, it seems like we are connected!' }
+
+// multi
+await client.gpt([{
+  role: 'system',
+  content: 'You are a bot'
+}, {
+  role: 'user',
+  content: 'What is your name?!'
+}])
+
+// configurable
+await client.gpt([{
+  
+}])
+// '{ content: 'I am a bot using the model gpt-3.5-turbo.' }
+```
+
 ## Use-Cases
 
 ### Automatically swapping models based on token size
@@ -26,7 +59,7 @@ npm i openai-tokens
 If you have too much content in your request, you can change your model dynamically so you use an appropriate size for each request.
 
 ```js
-const { dynamicWrapper } = require('openai-tokens')
+import { dynamicWrapper } from 'openai-tokens'
 
 const chat = async (messages = []) => {
   const body = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -196,7 +229,7 @@ You can pass options to the validate wrapper as seen in the examples above. The 
 A dynamic router has been provided for convenience. This allows you to pass multiple models. The module will choose the first valid model, so you can always maintain the smallest possible (and save some money 💰).
 
 ```js
-const { dynamicWrapper } = require('openai-tokens')
+import { dynamicWrapper } = from 'openai-tokens'
 
 const chat = async (messages = []) => {
   const body = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -240,7 +273,7 @@ If you provide a model that is not supported, you will get a console message as 
 YES! A good example of this would be using the `dynamicWrapper` and the `truncateWrapper` together like so:
 
 ```js
-const { dynamicWrapper, truncateWrapper } = require('openai-tokens')
+import { dynamicWrapper, truncateWrapper } from 'openai-tokens'
 
 const chat = async (messages = []) => {
   const body = await fetch('https://api.openai.com/v1/chat/completions', {
