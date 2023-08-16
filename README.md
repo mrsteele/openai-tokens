@@ -31,8 +31,9 @@ const client = createClient({
   limit: 1000 // Maybe add a limit if you want
 })
 
-await client.gpt('Is this working?')
-// '{ content: 'Yes, it seems like we are connected!' }
+const response = await client.gpt('Is this working?')
+console.log(response.content)
+// 'Yes, it seems like we are connected!'
 ```
 
 ## Use-Cases
