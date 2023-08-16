@@ -30,6 +30,38 @@ describe('dynamicWrapper', () => {
     expect(result.model).toBe(defaultRequest.model[1])
   })
 
+  test('picks the "best" when you exceed everything (lower)', () => {
+    const result = dynamicWrapper({
+      ...defaultRequest,
+      limit: 2,
+      opts: {
+        limit: 7000
+      },
+      messages: [{
+        role: 'user',
+        content: ten.repeat(500)
+      }]
+    })
+
+    expect(result.model).toBe(defaultRequest.model[0])
+  })
+
+  test('picks the "best" when you exceed everything (higher)', () => {
+    const result2 = dynamicWrapper({
+      ...defaultRequest,
+      opts: {
+        limit: 9000
+      },
+      test: true,
+      messages: [{
+        role: 'user',
+        content: ten.repeat(1000)
+      }]
+    })
+
+    expect(result2.model).toBe(defaultRequest.model[1])
+  })
+
   test('should still stringify if we must', () => {
     const args = {
       ...defaultRequest,
