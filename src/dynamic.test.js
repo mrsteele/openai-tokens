@@ -35,11 +35,11 @@ describe('dynamicWrapper', () => {
       ...defaultRequest,
       limit: 2,
       opts: {
-        limit: 7000
+        limit: 4000
       },
       messages: [{
         role: 'user',
-        content: ten.repeat(500)
+        content: ten.repeat(1000)
       }]
     })
 
@@ -52,7 +52,6 @@ describe('dynamicWrapper', () => {
       opts: {
         limit: 9000
       },
-      test: true,
       messages: [{
         role: 'user',
         content: ten.repeat(1000)
