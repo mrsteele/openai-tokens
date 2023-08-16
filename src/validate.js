@@ -1,11 +1,11 @@
-const { getAllTokens, getModelLimit, getTokens } = require('./utils')
+const { getAllTokens, getModelLimit, getTokens, getBodyLimit } = require('./utils')
 const getModel = require('./models')
 
 const validateWrapper = (body = {}) => {
   const model = getModel(body.model)
 
   const tokenTotal = getAllTokens(body)
-  const tokenLimit = model.tokens
+  const tokenLimit = getBodyLimit(body)
 
   return {
     tokenLimit,
