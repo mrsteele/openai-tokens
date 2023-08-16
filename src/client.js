@@ -113,16 +113,6 @@ const createClient = (config = {}) => {
     ...config
   }
 
-  const truncateOpts = {}
-
-  if (opts.buffer) {
-    truncateOpts.buffer = opts.buffer
-  }
-
-  if (opts.limit) {
-    truncateOpts.limit = opts.limit
-  }
-
   const createWrapper = async (isGpt, models = [], args) => {
     const obj = argsToObject(args, isGpt)
     const body = dynamicWrapper({

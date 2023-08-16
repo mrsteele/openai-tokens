@@ -28,28 +28,11 @@ import { createClient } = from 'openai-tokens'
 
 const client = createClient({
   key: 'your-openai-key-here',
-  buffer: 1000, // maybe you want a universal buffer her
-  gptModels: ['gpt-3.5-turbo', 'gpt-3.5-turbo-16k'] // adaptive models based on prompt size!!!
+  limit: 1000 // Maybe add a limit if you want
 })
 
-// single
 await client.gpt('Is this working?')
 // '{ content: 'Yes, it seems like we are connected!' }
-
-// multi
-await client.gpt([{
-  role: 'system',
-  content: 'You are a bot'
-}, {
-  role: 'user',
-  content: 'What is your name?!'
-}])
-
-// configurable
-await client.gpt([{
-  
-}])
-// '{ content: 'I am a bot using the model gpt-3.5-turbo.' }
 ```
 
 ## Use-Cases
@@ -131,6 +114,122 @@ await fetch('https://api.openai.com/v1/embeddings', {
 ```
 
 ## Complete Usage
+
+### createClient
+
+In an effort to streamline all the utilities into a single opinionated service, you can create a `client` that will determine waht is the best model and truncate if needed to fit your needs.
+
+```js
+import { createClient } = from 'openai-tokens'
+
+const client = createClient({
+  // put in your OpenAI key here
+  key: 'your-openai-key-here',
+  // (optional - defaults to 'null') - A limit on the prompts. If `null` it will be the model limit.
+  limit: 1000,
+  // (optional - defaults to `null`) - A buffer on the token count to let GPT respond
+  buffer: 1000,
+  // (optional - defaults below) Pass multiple models for adaptive models based on prompt size
+  gptModels: ['gpt-3.5-turbo', 'gpt-3.5-turbo-16k']
+})
+
+// single
+await client.gpt('Is this working?')
+// '{ content: 'Yes, it seems like we are connected!' }
+
+// multi
+await client.gpt([{
+  role: 'system',
+  content: 'You are a bot'
+}, {
+  role: 'user',
+  content: 'What is your name?!'
+}])
+// '{ content: 'I am a bot using the model gpt-3.5-turbo.' }
+
+// configurable on an individual basis
+await client.gpt({
+  opts: {
+    // this overrides what was on the client in this instance only
+    buffer: 500
+  },
+  messages: [{
+    role: 'system',
+    content: 'You are a bot'
+  }, {
+    role: 'user',
+    content: 'What is your name?!'
+  }]
+})
+// '{ content: 'A bot using 3.5 turbo!' }
+```
+
+#### Options
+
+The client itself can be created and configured with the following options:
+
+* **key** (String) - REQUIRED. This is your key that is provided from OpenAI. Used for all your prompts.
+* **limit** (Int) - The token limit you want to enforce on the messages/input. This is the aggregated results for messages (GPT/Completions), and the individual results for inputs/embeddings which is how they are calculated by OpenAI. Defaults to the model maximum.
+* **buffer** (Int) - The amount of additional restriction you want to apply to the limit. The math equates to `max = limit - buffer`. Defaults to `0`.
+* **json** (Bool) - Automatically returns the response as json. Defaults to `true`.
+* **truncate** (Bool) - Uses some advanced logic to ensure that the prompts fit with the respective models and considers your limits and buffers. Defaults to `true`.
+* **gptModels**: (String[]) - An array of models used for GPT completions. Uses the `validationWrapper` to find the best model to use. Defaults to `['gpt-3.5-turbo', 'gpt-3.5-turbo-4k']`.
+* **embeddingModels**: (String[]) - An array of models used for Embeddings. There is only one at the moment. Defaults to `['ada-embeddings']`.
+
+#### Returns
+
+The client will return two properties:
+
+* **gpt** - Run a GPT completion. Supports a `String`, `Array`, or an `Object` as the argument (see examples below):
+```js
+// String
+await client.gpt('Is this working?')
+
+// Array
+await client.gpt([{
+  role: 'system',
+  content: 'You are a bot'
+}, {
+  role: 'user',
+  content: 'What is your name?!'
+}])
+
+// Object
+await client.gpt({
+  opts: {
+    limit: 500,
+  },
+  messages: [{
+    role: 'system',
+    content: 'You are a bot'
+  }, {
+    role: 'user',
+    content: 'What is your name?!'
+  }]
+})
+```
+* **embed** - Run an Embedding. Supports a `String`, `Array` or an `Object`. See examples below:
+```js
+// String
+await client.embed('Is this working?')
+
+// Array
+await client.embed([
+  'You are a bot',
+  'What is your name?!'
+])
+
+// Object
+await client.embed({
+  opts: {
+    limit: 500,
+  },
+  input: [
+    'You are a bot',
+    'What is your name?!'
+  ]
+})
+```
 
 ### Truncate
 
