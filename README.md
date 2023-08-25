@@ -118,7 +118,7 @@ await fetch('https://api.openai.com/v1/embeddings', {
 
 ### createClient
 
-In an effort to streamline all the utilities into a single opinionated service, you can create a `client` that will determine waht is the best model and truncate if needed to fit your needs.
+In an effort to streamline all the utilities into a single opinionated service, you can create a `client` that will determine what is the best model and truncate if needed to fit your needs.
 
 ```js
 import { createClient } = from 'openai-tokens'
