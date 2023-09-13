@@ -24,7 +24,7 @@ npm i openai-tokens
 If you are looking for all the bells and whistles provided out of the box, it is recommended to use the `client`.
 
 ```js
-import { createClient } = from 'openai-tokens'
+import { createClient } from 'openai-tokens'
 
 const client = createClient({
   key: 'your-openai-key-here',
