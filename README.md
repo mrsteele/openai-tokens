@@ -121,7 +121,7 @@ await fetch('https://api.openai.com/v1/embeddings', {
 In an effort to streamline all the utilities into a single opinionated service, you can create a `client` that will determine what is the best model and truncate if needed to fit your needs.
 
 ```js
-import { createClient } = from 'openai-tokens'
+import { createClient } from 'openai-tokens'
 
 const client = createClient({
   // put in your OpenAI key here
@@ -329,7 +329,7 @@ You can pass options to the validate wrapper as seen in the examples above. The 
 A dynamic router has been provided for convenience. This allows you to pass multiple models. The module will choose the first valid model, so you can always maintain the smallest possible (and save some money 💰).
 
 ```js
-import { dynamicWrapper } = from 'openai-tokens'
+import { dynamicWrapper } from 'openai-tokens'
 
 const chat = async (messages = []) => {
   const body = await fetch('https://api.openai.com/v1/chat/completions', {
