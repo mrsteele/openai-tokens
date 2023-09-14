@@ -33,7 +33,7 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: npm i
       - run: npm t
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
   deploy:
     needs: test
     runs-on: ubuntu-latest
