@@ -45,11 +45,26 @@ const models = {
     tokens: _16k,
     price: 0.000003
   },
+  'gpt-3.5-turbo-0125': {
+    tokens: _16k,
+    price: .0000005
+  },
+  'gpt-3.5-turbo-instruct': {
+    tokens: _4k,
+    price: .0000015 // input only... output is $2 / 1m
 
   // embeddings
   'text-embedding-ada-002': {
     tokens: _8k - 1, // offset
-    price: 0.0000001
+    price: .0000001
+  },
+  'text-embedding-3-small': {
+    tokens: _8k - 1, // offset
+    price: 0.00000002
+  },
+  'text-embedding-3-large': {
+    tokens: _8k - 1, // offset
+    price: 0.00000013
   },
 
   // legacy
