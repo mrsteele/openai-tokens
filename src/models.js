@@ -52,6 +52,7 @@ const models = {
   'gpt-3.5-turbo-instruct': {
     tokens: _4k,
     price: .0000015 // input only... output is $2 / 1m
+  },
 
   // embeddings
   'text-embedding-ada-002': {
