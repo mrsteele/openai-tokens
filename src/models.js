@@ -8,14 +8,52 @@ const _4k = 4096
 const _8k = 8192
 const _16k = 16384
 const _32k = 32768
+const _128k = 128000
 
 const models = {
+  // gpt-4o
+  'gpt-4o': {
+    tokens: _128k,
+    price: 0.000005
+  },
+  'gpt-4o-2024-05-13': {
+    tokens: _128k,
+    price: 0.000005
+  },
   // gpt 4
+  'gpt-4-turbo': {
+    tokens: _128k,
+    price: 0.00001
+  },
+  'gpt-4-turbo-2024-04-09': {
+    tokens: _128k,
+    price: 0.00001
+  },
+  'gpt-4-0125-preview': {
+    tokens: _128k,
+    price: 0.00001
+  },
+  'gpt-4-1106-preview': {
+    tokens: _128k,
+    price: 0.00001
+  },
+  'gpt-4-vision-preview': {
+    tokens: _128k,
+    price: 0.00001
+  },
+  'gpt-4-turbo-preview': {
+    tokens: _128k,
+    price: 0.00001
+  },
   'gpt-4': {
     tokens: _8k,
     price: 0.00003
   },
   'gpt-4-0613': {
+    tokens: _8k,
+    price: 0.00003
+  },
+  'gpt-4-0314': {
     tokens: _8k,
     price: 0.00003
   },
