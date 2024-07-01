@@ -406,20 +406,7 @@ const chat = async (messages = []) => {
 
 ### Supported Models
 
-The following models are supported. Plenty more available upon request (in fact, feel free to submit a PR and become a contributor!)
-
-* gpt-4
-* gpt-4-0613
-* gpt-4-32k
-* gpt-4-32k-0613
-* gpt-3.5-turbo
-* gpt-3.5-turbo-16k
-* gpt-3.5-turbo-0613
-* gpt-3.5-turbo-16k-0613
-* text-embedding-ada-002
-* text-davinci-003
-* text-davinci-002
-* code-davinci-002
+I am attempting to keep the model list up-to-date as much as possible, but feel free to submit a PR if there is a model I missed or if OpenAI added more and I fall behind.
 
 ## License
 
