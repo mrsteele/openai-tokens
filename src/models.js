@@ -16,6 +16,18 @@ const models = {
     tokens: _128k,
     price: 0.000005
   },
+  'gpt-4o-2024-08-06': {
+    tokens: _128k,
+    price: 0.0000025
+  },
+  'gpt-4o-min': {
+    tokens: _128k,
+    price: 0.0000015
+  },
+  'gpt-4o-mini-2024-07-18': {
+    tokens: _128k,
+    price: 0.0000015
+  },
   'gpt-4o-2024-05-13': {
     tokens: _128k,
     price: 0.000005
