@@ -43,10 +43,11 @@
   "license": "MIT",
   "dependencies": {
     "isomorphic-fetch": "^3.0.0",
-    "js-tiktoken": "^1.0.7"
+    "js-tiktoken": "^1.0.14"
   },
   "devDependencies": {
     "jest": "^29.6.2",
     "standard": "^17.1.0"
   }
 }
+
