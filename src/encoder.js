@@ -6,7 +6,7 @@ const models = [
   'p50k_edit',
   'r50k_base',
   'cl100k_base',
-  'o200k_base',
+  'o200k_base'
 ].reduce((all, key) => {
   all[key] = getEncoding(key)
   return all
