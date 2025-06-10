@@ -46,7 +46,7 @@
     "js-tiktoken": "^1.0.14"
   },
   "devDependencies": {
-    "jest": "^29.6.2",
+    "jest": "^30.0.0",
     "standard": "^17.1.0"
   }
 }
