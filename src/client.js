@@ -48,9 +48,21 @@ const gpt2 = await client.gpt({
   }]
 })
 */
-require('isomorphic-fetch')
 const { dynamicWrapper } = require('./dynamic')
 const { truncateWrapper } = require('./truncate')
+
+try {
+  // backfill fetch for older runtimes when available
+  require('isomorphic-fetch')
+} catch (err) {}
+
+const getFetch = () => {
+  if (globalThis.fetch) {
+    return globalThis.fetch
+  }
+
+  throw new Error('openai-tokens: global fetch is unavailable. Add a fetch polyfill for this runtime.')
+}
 
 const argsToObject = (content, isGpt) => {
   const opts = {}
@@ -103,8 +115,8 @@ const defaultConfig = {
   buffer: null, // global buffer
   limit: null,
   key: null, // global key
-  gptModels: ['gpt-3.5-turbo', 'gpt-3.5-turbo-16k'],
-  embeddingModels: ['text-embedding-ada-002']
+  gptModels: ['gpt-4.1-mini', 'gpt-4.1'],
+  embeddingModels: ['text-embedding-3-small', 'text-embedding-3-large']
 }
 
 const createClient = (config = {}) => {
@@ -121,7 +133,7 @@ const createClient = (config = {}) => {
       opts: getDynamicOpts(opts, obj.opts)
     })
 
-    const response = await fetch(`https://api.openai.com/v1${isGpt ? '/chat/completions' : '/embeddings'}`, {
+    const response = await getFetch()(`https://api.openai.com/v1${isGpt ? '/chat/completions' : '/embeddings'}`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${opts.key}`,

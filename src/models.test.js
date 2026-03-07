@@ -8,9 +8,24 @@ describe('getModel', () => {
   })
 
   test('should detect from table the correct data', () => {
-    expect(getModel('gpt-4')).toMatchObject({
-      tokens: 8192,
-      price: 0.00003
+    expect(getModel('gpt-4.1')).toMatchObject({
+      tokens: 128000,
+      price: 0.000002
+    })
+  })
+
+  test('should resolve dated variants from patterns', () => {
+    expect(getModel('gpt-4.1-mini-2025-04-14')).toMatchObject({
+      tokens: 128000,
+      price: 0.0000004
+    })
+  })
+
+  test('should support runtime model registration', () => {
+    getModel.registerModel('acme-model-1', { tokens: 2048, price: 0.00000001 })
+    expect(getModel('acme-model-1')).toMatchObject({
+      tokens: 2048,
+      price: 0.00000001
     })
   })
 })

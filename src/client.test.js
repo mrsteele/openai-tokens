@@ -27,7 +27,7 @@ describe('createClient', () => {
     expect(gpt.opts).toMatchObject({
       ...defaultResponse,
       body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4.1-mini',
         messages: [{
           role: 'user',
           content: 'test'
@@ -40,7 +40,7 @@ describe('createClient', () => {
     expect(embed.opts).toMatchObject({
       ...defaultResponse,
       body: JSON.stringify({
-        model: 'text-embedding-ada-002',
+        model: 'text-embedding-3-small',
         input: ['test']
       })
     })
@@ -58,18 +58,18 @@ describe('createClient', () => {
   })
 
   describe('models', () => {
-    test('should default gpt models to 3.5 and 16k', async () => {
+    test('should default gpt models to 4.1 mini and 4.1', async () => {
       const defaultClient = createClient()
       const gpt = await defaultClient.gpt('test')
-      expect(JSON.parse(gpt.opts.body).model).toBe('gpt-3.5-turbo')
+      expect(JSON.parse(gpt.opts.body).model).toBe('gpt-4.1-mini')
       const gpt2 = await defaultClient.gpt('one two three four five six seven eight nine ten '.repeat(450))
-      expect(JSON.parse(gpt2.opts.body).model).toBe('gpt-3.5-turbo-16k')
+      expect(JSON.parse(gpt2.opts.body).model).toBe('gpt-4.1-mini')
     })
 
-    test('should default embeddings to just ada (nothing bigger yet...)', async () => {
+    test('should default embeddings to 3-small', async () => {
       const defaultClient = createClient()
       const e = await defaultClient.embed('test')
-      expect(JSON.parse(e.opts.body).model).toBe('text-embedding-ada-002')
+      expect(JSON.parse(e.opts.body).model).toBe('text-embedding-3-small')
     })
 
     test('should support overriding gpt models', async () => {

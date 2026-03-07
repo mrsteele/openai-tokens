@@ -19,6 +19,10 @@ This package was written by an author who actively uses OpenAI and was running i
 npm i openai-tokens
 ```
 
+## TypeScript
+
+Bundled declaration files are included. No separate `@types/*` package is required.
+
 ## Quick Start
 
 If you are looking for all the bells and whistles provided out of the box, it is recommended to use the `client`.
@@ -51,7 +55,7 @@ const chat = async (messages = []) => {
     // wrap your original content with minor adjustments
     body: dynamicWrapper({
       // we test all models till we find a valid one based on the prompt size
-      model: ['gpt-3.5-turbo', 'gpt-3.5-turbo-16k'],
+      model: ['gpt-4.1-mini', 'gpt-4.1'],
       messages: [{
         role: 'user',
         content: 'This prmopt is small, so its going to go with the first one'
@@ -105,7 +109,7 @@ Embeddings support a lot of data, and sometimes more data than you have room for
 await fetch('https://api.openai.com/v1/embeddings', {
   method: 'POST',
   body: truncateWrapper({
-    mode: 'text-embedding-ada-002',
+    mode: 'text-embedding-3-small',
     opts: {
       stringify: true // we will even take care of this for you
     },
@@ -131,7 +135,7 @@ const client = createClient({
   // (optional - defaults to `null`) - A buffer on the token count to let GPT respond
   buffer: 1000,
   // (optional - defaults below) Pass multiple models for adaptive models based on prompt size
-  gptModels: ['gpt-3.5-turbo', 'gpt-3.5-turbo-16k']
+  gptModels: ['gpt-4.1-mini', 'gpt-4.1']
 })
 
 // single
@@ -174,8 +178,8 @@ The client itself can be created and configured with the following options:
 * **buffer** (Int) - The amount of additional restriction you want to apply to the limit. The math equates to `max = limit - buffer`. Defaults to `0`.
 * **json** (Bool) - Automatically returns the response as json. Defaults to `true`.
 * **truncate** (Bool) - Uses some advanced logic to ensure that the prompts fit with the respective models and considers your limits and buffers. Defaults to `true`.
-* **gptModels**: (String[]) - An array of models used for GPT completions. Uses the `validationWrapper` to find the best model to use. Defaults to `['gpt-3.5-turbo', 'gpt-3.5-turbo-4k']`.
-* **embeddingModels**: (String[]) - An array of models used for Embeddings. There is only one at the moment. Defaults to `['ada-embeddings']`.
+* **gptModels**: (String[]) - An array of models used for GPT completions. Uses the `validationWrapper` to find the best model to use. Defaults to `['gpt-4.1-mini', 'gpt-4.1']`.
+* **embeddingModels**: (String[]) - An array of models used for Embeddings. Defaults to `['text-embedding-3-small', 'text-embedding-3-large']`.
 
 #### Returns
 
@@ -265,6 +269,17 @@ const truncatedBody = truncateWrapper({
     { role: 'user', content: 'This will be preserved, because there is no matching "assistant" message.' }
   ]
 })
+```
+
+### Model registry helpers
+
+You can inspect and extend model support at runtime:
+
+```js
+import { listSupportedModels, registerModel } from 'openai-tokens'
+
+const known = listSupportedModels()
+registerModel('gpt-4.1-custom', { tokens: 128000, price: 0.000002 })
 ```
 
 #### Options
