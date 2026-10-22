@@ -43,6 +43,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
       - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v6
+        uses: cycjimmy/semantic-release-action@v8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
